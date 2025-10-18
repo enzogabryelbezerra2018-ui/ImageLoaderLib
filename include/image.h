@@ -3,7 +3,8 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include <cstddef> // Para size_t
+#include <cstddef> 
+#include <cstdint> // Para uint32_t
 
 namespace CustomImageLoader {
 
@@ -16,18 +17,30 @@ struct ImageData {
     std::unique_ptr<unsigned char[]> pixel_data = nullptr; 
     size_t data_size = 0;
     bool is_valid = false;
+    
+    // SVG fields (opcionalmente mantenha, ou crie uma classe base e herança)
+    std::vector<std::string> vector_elements; 
 };
 
 // Funções de carregamento
-ImageData load_jpeg(const std::string& filename); // Já implementado
-ImageData load_gif(const std::string& filename);  // NOVO: Adicione esta linha
+ImageData load_jpeg(const std::string& filename); 
+ImageData load_gif(const std::string& filename);  
+ImageData load_png(const std::string& filename);  
+ImageData load_svg(const std::string& filename); 
+ImageData load_webp(const std::string& filename); // NOVO: Adicione esta linha
 
-// Assinaturas de Arquivo
-constexpr unsigned char JPEG_SOI[] = {0xFF, 0xD8};
-constexpr size_t JPEG_SOI_SIZE = 2;
+// Assinaturas de Arquivo (apenas WebP adicionada por brevidade)
+// ...
+constexpr unsigned char PNG_SIGNATURE[] = {0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A};
+constexpr size_t PNG_SIGNATURE_SIZE = 8;
 
-constexpr unsigned char GIF_SIGNATURE_87A[] = {'G', 'I', 'F', '8', '7', 'a'};
-constexpr unsigned char GIF_SIGNATURE_89A[] = {'G', 'I', 'F', '8', '9', 'a'};
-constexpr size_t GIF_SIGNATURE_SIZE = 6;
+// Assinaturas WebP (RIFF Chunks)
+constexpr uint32_t RIFF_TAG = 0x46464952; // 'RIFF' em Little-Endian
+constexpr uint32_t WEBP_TAG = 0x50424557; // 'WEBP' em Little-Endian
+
+// Tags de Chunk WebP
+constexpr uint32_t VP8_TAG  = 0x20385056; // 'VP8 ' (com espaço)
+constexpr uint32_t VP8L_TAG = 0x4C385056; // 'VP8L'
+constexpr uint32_t VP8X_TAG = 0x58385056; // 'VP8X' (para formato estendido)
 
 } // namespace CustomImageLoader
