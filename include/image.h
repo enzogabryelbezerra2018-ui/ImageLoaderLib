@@ -18,16 +18,16 @@ struct ImageData {
     bool is_valid = false;
 };
 
-/**
- * @brief Carrega um arquivo JPEG do caminho especificado.
- * * Esta função deve implementar a lógica completa de decodificação JPEG.
- * * @param filename Caminho para o arquivo JPEG.
- * @return ImageData A estrutura contendo os pixels e metadados da imagem.
- */
-ImageData load_jpeg(const std::string& filename);
+// Funções de carregamento
+ImageData load_jpeg(const std::string& filename); // Já implementado
+ImageData load_gif(const std::string& filename);  // NOVO: Adicione esta linha
 
-// Assinatura de Início de Imagem JPEG (Start of Image - SOI)
+// Assinaturas de Arquivo
 constexpr unsigned char JPEG_SOI[] = {0xFF, 0xD8};
 constexpr size_t JPEG_SOI_SIZE = 2;
+
+constexpr unsigned char GIF_SIGNATURE_87A[] = {'G', 'I', 'F', '8', '7', 'a'};
+constexpr unsigned char GIF_SIGNATURE_89A[] = {'G', 'I', 'F', '8', '9', 'a'};
+constexpr size_t GIF_SIGNATURE_SIZE = 6;
 
 } // namespace CustomImageLoader
